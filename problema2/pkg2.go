@@ -21,22 +21,22 @@ func PrintSolution(board [N][N]int) {
 	fmt.Println()
 }
 
-// IsSafe verifica se a posição (x, y) é válida para o cavalo
 func IsSafe(x, y int, board [N][N]int) bool {
 	return x >= 0 && y >= 0 && x < N && y < N && board[x][y] == -1
 }
 
 func SolveKTUtil(x, y, movei int, board *[N][N]int) bool {
-	if movei == N*N { // Se todas as posições foram preenchidas, retorna true
+	if movei == N*N {
 		return true
 	}
 
-	for k := 0; k < 8; k++ { // Tenta todos os movimentos possíveis
+	for k := 0; k < 8; k++ {
 		nextX := x + xMove[k]
 		nextY := y + yMove[k]
-		if IsSafe(nextX, nextY, *board) { // Se o movimento é válido
-			board[nextX][nextY] = movei                    // Marca a posição
-			if SolveKTUtil(nextX, nextY, movei+1, board) { // Chama recursivamente
+		if IsSafe(nextX, nextY, *board) {
+			board[nextX][nextY] = movei
+
+			if SolveKTUtil(nextX, nextY, movei+1, board) {
 				return true
 			} else {
 				board[nextX][nextY] = -1
@@ -47,21 +47,18 @@ func SolveKTUtil(x, y, movei int, board *[N][N]int) bool {
 	return false
 }
 
-// SolveKT solves the Knight's Tour problem using backtracking
 func SolveKT() {
 	var board [N][N]int
 
-	// Inicializando o tabuleiro
 	for i := 0; i < N; i++ {
 		for j := 0; j < N; j++ {
 			board[i][j] = -1
 		}
 	}
 
-	// Posição inicial do cavalo
 	board[0][0] = 0
 
-	if !SolveKTUtil(0, 0, 1, &board) {
+	if !SolveKTUtil(0, 0, 1, &board) { // Custo: C1, Número de execuções: 1
 		fmt.Println("Solution does not exist")
 	} else {
 		PrintSolution(board)

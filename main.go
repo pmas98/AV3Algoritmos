@@ -1,9 +1,9 @@
 package main
 
 import (
-	"unif/problema5"
+	"unif/problema3"
 )
 
 func main() {
-	problema5.Problema5()
+	problema3.RunExample()
 }

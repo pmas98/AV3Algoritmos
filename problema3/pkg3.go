@@ -4,32 +4,28 @@ import (
 	"fmt"
 )
 
-// findSubsetsUtil is the utility function that uses backtracking to find subsets that sum to zero
 func findSubsetsUtil(nums []int, index int, currentSubset []int, currentSum int) bool {
-	// Base case: if the current sum is zero and the subset is not empty, we found a valid subset
 	if currentSum == 0 && len(currentSubset) > 0 {
 		fmt.Println("Subset found:", currentSubset)
 		return true
 	}
-
-	// Recur for all remaining elements that have not been processed yet
+	print("currentSubset: ", fmt.Sprint(currentSubset), " currentSum: ", currentSum, "\n")
+	print("index: ", index, " len(nums): ", len(nums), "\n")
 	for i := index; i < len(nums); i++ {
-		// Include the current element in the subset
 		currentSubset = append(currentSubset, nums[i])
 
-		// Check if this inclusion results in a subset sum of zero
 		if findSubsetsUtil(nums, i+1, currentSubset, currentSum+nums[i]) {
 			return true
 		}
 
-		// Backtrack: remove the current element from the subset
 		currentSubset = currentSubset[:len(currentSubset)-1]
+		print("currentSubset: ", fmt.Sprint(currentSubset), " currentSum: ", currentSum, "\n")
+
 	}
 
 	return false
 }
 
-// findSubsets finds and prints subsets of nums that sum to zero
 func findSubsets(nums []int) {
 	currentSubset := []int{}
 	if !findSubsetsUtil(nums, 0, currentSubset, 0) {
@@ -38,8 +34,6 @@ func findSubsets(nums []int) {
 }
 
 func RunExample() {
-	// Example input: {−7, −3, −2, 5, 8}
-	nums := []int{-479, 24, -58, 11, 31, -74, 4, 53, 12, 50, -2, -40, -81}
-
+	nums := []int{-4, 17, 49, 4}
 	findSubsets(nums)
 }

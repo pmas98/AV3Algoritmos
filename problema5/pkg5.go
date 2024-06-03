@@ -12,32 +12,31 @@ type Ator struct {
 	Name string `json:"name"`
 }
 
-// Função para ler o CSV e construir o grafo de atores
 func lerCSV(caminho string) map[string][]string {
-	file, err := os.Open(caminho)
-	if err != nil {
-		log.Fatal(err)
+	file, err := os.Open(caminho) // Custo: C1, Número de execuções: 1
+	if err != nil {               // Custo: C2, Número de execuções: 1
+		log.Fatal(err) // Custo: C3, Número de execuções: 1
 	}
-	defer file.Close()
+	defer file.Close() // Custo: C4, Número de execuções: 1
 
-	reader := csv.NewReader(file)
-	records, err := reader.ReadAll()
-	if err != nil {
-		log.Fatal(err)
+	reader := csv.NewReader(file)    // Custo: C5, Número de execuções: 1
+	records, err := reader.ReadAll() // Custo: C6, Número de execuções: 1
+	if err != nil {                  // Custo: C7, Número de execuções: 1
+		log.Fatal(err) // Custo: C8, Número de execuções: 1
 	}
 
-	grafo := make(map[string][]string)
-	for _, record := range records[1:] {
-		cast := record[2]
-		var atores []Ator
-		err := json.Unmarshal([]byte(cast), &atores)
-		if err != nil {
-			log.Fatal(err)
+	grafo := make(map[string][]string)   // Custo: C9, Número de execuções: 1
+	for _, record := range records[1:] { // Custo: C10, Número de execuções: 1
+		cast := record[2]                            // Custo: C11, Número de execuções: n
+		var atores []Ator                            // Custo: C12, Número de execuções: n
+		err := json.Unmarshal([]byte(cast), &atores) // Custo: C13, Número de execuções: 1
+		if err != nil {                              // Custo: C14, Número de execuções: 1
+			log.Fatal(err) // Custo: C15, Número de execuções: 1
 		}
-		for _, ator := range atores {
-			for _, outroAtor := range atores {
-				if ator.Name != outroAtor.Name {
-					grafo[ator.Name] = append(grafo[ator.Name], outroAtor.Name)
+		for _, ator := range atores { // Custo: C16, Número de execuções: 1
+			for _, outroAtor := range atores { // Custo: C17, Número de execuções: 1
+				if ator.Name != outroAtor.Name { // Custo: C18, Número de execuções: 1
+					grafo[ator.Name] = append(grafo[ator.Name], outroAtor.Name) // Custo: C19, Número de execuções: 1
 				}
 			}
 		}
@@ -45,28 +44,27 @@ func lerCSV(caminho string) map[string][]string {
 	return grafo
 }
 
-// Função para calcular o Número de Bacon usando BFS
 func numeroDeBacon(grafo map[string][]string, origem, destino string) int {
-	if origem == destino {
+	if origem == destino { // Custo: C20, Número de execuções: 1
 		return 0
 	}
 
-	visitado := make(map[string]bool)
-	fila := []string{origem}
-	distancia := map[string]int{origem: 0}
+	visitado := make(map[string]bool)      // Custo: C21, Número de execuções: 1
+	fila := []string{origem}               // Custo: C22, Número de execuções: 1
+	distancia := map[string]int{origem: 0} // Custo: C23, Número de execuções: 1
 
-	for len(fila) > 0 {
-		atual := fila[0]
-		fila = fila[1:]
+	for len(fila) > 0 { // Custo: C24, Número de execuções: n
+		atual := fila[0] // Custo: C25, Número de execuções: n
+		fila = fila[1:]  // Custo: C26, Número de execuções: n
 
-		for _, vizinho := range grafo[atual] {
-			if !visitado[vizinho] {
-				distancia[vizinho] = distancia[atual] + 1
-				if vizinho == destino {
-					return distancia[vizinho]
+		for _, vizinho := range grafo[atual] { // Custo: C27, Número de execuções: n
+			if !visitado[vizinho] { // Custo: C28, Número de execuções: n
+				distancia[vizinho] = distancia[atual] + 1 // Custo: C29, Número de execuções: n
+				if vizinho == destino {                   // Custo: C30, Número de execuções: n
+					return distancia[vizinho] // Custo: C31, Número de execuções: 1
 				}
-				visitado[vizinho] = true
-				fila = append(fila, vizinho)
+				visitado[vizinho] = true     // Custo: C32, Número de execuções: n
+				fila = append(fila, vizinho) // Custo: C33, Número de execuções: n
 			}
 		}
 	}
@@ -75,12 +73,12 @@ func numeroDeBacon(grafo map[string][]string, origem, destino string) int {
 }
 
 func Problema5() {
-	caminhoCSV := "problema5/tmdb_5000_credits.csv"
-	grafo := lerCSV(caminhoCSV)
-	fmt.Printf("Grafo de atores construído com %d atores\n", len(grafo))
-	origem := "Kevin Bacon"
-	destino := "Shane Carruth"
-	numeroBacon := numeroDeBacon(grafo, origem, destino)
+	caminhoCSV := "problema5/tmdb_5000_credits.csv"                      // Custo: C1, Número de execuções: 1
+	grafo := lerCSV(caminhoCSV)                                          // Custo: C2, Número de execuções: 1
+	fmt.Printf("Grafo de atores construído com %d atores\n", len(grafo)) // Custo: C3, Número de execuções: 1
+	origem := "Kevin Bacon"                                              // Custo: C4, Número de execuções: 1
+	destino := "Shane Carruth"                                           // Custo: C5, Número de execuções: 1
+	numeroBacon := numeroDeBacon(grafo, origem, destino)                 // Custo: C6, Número de execuções: 1
 
 	if numeroBacon != -1 {
 		fmt.Printf("O Número de Bacon entre %s e %s é: %d\n", origem, destino, numeroBacon)
