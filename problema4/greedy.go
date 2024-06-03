@@ -48,6 +48,7 @@ func caixeiroViajante(cidades []Cidade) []int {
 }
 
 func Greedy() {
+
 	// Exemplo de 10 cidades com coordenadas x e y
 	cidades := []Cidade{
 		{X: 0, Y: 0},
@@ -63,17 +64,21 @@ func Greedy() {
 	}
 
 	rota := caixeiroViajante(cidades)
-	menorRota := 0
+	menorRota := 0.0
 
 	fmt.Println("Rota percorrida:")
-	for i, cidade := range rota {
+	for i := 0; i < len(rota); i++ {
 		if i == len(rota)-1 {
-			menorRota += int(distancia(cidades[rota[i]], cidades[0]))
+			dist := distancia(cidades[rota[i]], cidades[rota[0]])
+			menorRota += dist
+			fmt.Printf("Cidade %d: (%.2f, %.2f) -> Cidade %d: (%.2f, %.2f), Distância: %.2f\n",
+				rota[i], cidades[rota[i]].X, cidades[rota[i]].Y, rota[0], cidades[rota[0]].X, cidades[rota[0]].Y, dist)
 		} else {
-			menorRota += int(distancia(cidades[rota[i]], cidades[rota[i+1]]))
+			dist := distancia(cidades[rota[i]], cidades[rota[i+1]])
+			menorRota += dist
+			fmt.Printf("Cidade %d: (%.2f, %.2f) -> Cidade %d: (%.2f, %.2f), Distância: %.2f\n",
+				rota[i], cidades[rota[i]].X, cidades[rota[i]].Y, rota[i+1], cidades[rota[i+1]].X, cidades[rota[i+1]].Y, dist)
 		}
-		fmt.Printf("Cidade %d: (%.2f, %.2f)\n", cidade, cidades[cidade].X, cidades[cidade].Y)
 	}
-	fmt.Printf("Largura percorrida " + fmt.Sprintf("%d", menorRota))
-
+	fmt.Printf("Largura percorrida: %.2f\n", menorRota)
 }

@@ -34,6 +34,6 @@ func findSubsets(nums []int) {
 }
 
 func RunExample() {
-	nums := []int{-4, 17, 49, 4}
+	nums := []int{-4, 17, 49, 4, 4, 23, 1, 2, 5324, 123, 223, 55, 332, 45, 62, 234, 56, 90, 58, 0}
 	findSubsets(nums)
 }
